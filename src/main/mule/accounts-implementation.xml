@@ -10,19 +10,33 @@ http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/cu
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<flow name="get-accounts-flow"
 		doc:id="7b20c228-eb78-4a76-a8b9-c2c211269882">
-		<db:select doc:name="Select"
+		<db:select doc:name="SELECT flights_customers"
 			doc:id="dde4508c-e56b-45ac-a3b0-e4a8d08d025a"
 			config-ref="Database_Config">
 			<db:sql><![CDATA[SELECT *
 FROM flights_customers
 WHERE accountType =:accountType
 LIMIT 100]]></db:sql>
-			<db:input-parameters ><![CDATA[#[{'accountType' : attributes.queryParams."type"}]]]></db:input-parameters>
+			<db:input-parameters><![CDATA[#[{'accountType' : attributes.queryParams."type"}]]]></db:input-parameters>
 		</db:select>
-		<logger level="INFO" doc:name="Logger" doc:id="00128123-9c37-4093-a20e-02c4cfe34e53" message="#[payload]"/>
-		<ee:transform doc:name="Transform Message" doc:id="6e961dff-f8b6-4545-bb96-98e825e0f4c6" >
+		<ee:transform doc:name="Transform Message"
+			doc:id="6e961dff-f8b6-4545-bb96-98e825e0f4c6">
+			<ee:message>
+				<ee:set-payload
+					resource="dw/flights_customers-to-accounts.dwl" />
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="get-accounts-id-flow" doc:id="f8875fb9-be32-4c40-aabc-86011df1b337" >
+		<db:select doc:name="Select" doc:id="a2e2725f-e78d-4dd9-aea9-a9fb5ca3b91e" config-ref="Database_Config">
+			<db:sql ><![CDATA[SELECT *
+FROM flights_customers
+WHERE accountID = :accountID]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'accountID' : attributes.uriParams.ID}]]]></db:input-parameters>
+		</db:select>
+		<ee:transform doc:name="Transform Message" doc:id="74622ecf-0193-4781-b1db-6408397ceab2" >
 			<ee:message >
-				<ee:set-payload resource="dw/flights_customers-to-accounts.dwl" />
+				<ee:set-payload resource="dw/flights_customers-to-accounts.dwl"/>
 			</ee:message>
 		</ee:transform>
 	</flow>

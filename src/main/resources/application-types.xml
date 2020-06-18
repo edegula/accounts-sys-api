@@ -18,4 +18,13 @@ type get_accounts_response_example = Array<{|  id: String,   firstName: String, 
       </types:output-event>
     </types:processor-declaration>
   </types:enrichment>
+  <types:enrichment select="#74622ecf-0193-4781-b1db-6408397ceab2">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="get-accounts-response-example"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
 </types:mule>
