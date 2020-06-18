@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="get-accounts-response-example" format="json">
+      <types:shape format="weave" example="examples/get-accounts-response-example.json"><![CDATA[%dw 2.0
+
+type get_accounts_response_example = Array<{|  id: String,   firstName: String,   lastName: String,   address: String,   postal: String,   country: String,   miles: Number {"typeId": "int"},   creationDate: String,   "type": String|}> {"example": "[{\\\"id\\\":\\\"ACC0002\\\",\\\"firstName\\\":\\\"Max\\\",\\\"lastName\\\":\\\"Muley\\\",\\\"address\\\":\\\"161 Oakleigh Rd\\\",\\\"postal\\\":\\\"3163\\\",\\\"country\\\":\\\"Australia\\\",\\\"miles\\\":3000,\\\"creationDate\\\":\\\"2020-06-17T00:00:00Z\\\",\\\"type\\\":\\\"business\\\"},{\\\"id\\\":\\\"ACC0001\\\",\\\"firstName\\\":\\\"Max\\\",\\\"lastName\\\":\\\"Muley\\\",\\\"address\\\":\\\"161 Oakleigh Rd\\\",\\\"postal\\\":\\\"3163\\\",\\\"country\\\":\\\"Australia\\\",\\\"miles\\\":3000,\\\"creationDate\\\":\\\"2020-06-17T00:00:00Z\\\",\\\"type\\\":\\\"personal\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#6e961dff-f8b6-4545-bb96-98e825e0f4c6">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="get-accounts-response-example[]"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
