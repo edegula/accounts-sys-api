@@ -8,14 +8,16 @@
 	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-	<db:config name="Database_Config" doc:name="Database Config" doc:id="f6f8b3de-4fc5-485e-b829-3a77998dc9c9" >
-		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.username}" password="${db.password}" database="${db.database_name}" />
-	</db:config>
-	<flow name="get-accounts-flow" doc:id="7b20c228-eb78-4a76-a8b9-c2c211269882" >
-		<db:select doc:name="Select" doc:id="dde4508c-e56b-45ac-a3b0-e4a8d08d025a" config-ref="Database_Config">
-			<db:sql ><![CDATA[SELECT *
+	<flow name="get-accounts-flow"
+		doc:id="7b20c228-eb78-4a76-a8b9-c2c211269882">
+		<db:select doc:name="Select"
+			doc:id="dde4508c-e56b-45ac-a3b0-e4a8d08d025a"
+			config-ref="Database_Config">
+			<db:sql><![CDATA[SELECT *
 FROM flights_customers
-LIMIT 10]]></db:sql>
+WHERE accountType =:accountType
+LIMIT 100]]></db:sql>
+			<db:input-parameters ><![CDATA[#[{'accountType' : attributes.queryParams."type"}]]]></db:input-parameters>
 		</db:select>
 		<logger level="INFO" doc:name="Logger" doc:id="00128123-9c37-4093-a20e-02c4cfe34e53" message="#[payload]"/>
 		<ee:transform doc:name="Transform Message" doc:id="6e961dff-f8b6-4545-bb96-98e825e0f4c6" >

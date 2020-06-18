@@ -163,8 +163,10 @@ output application/json
 		</error-handler>
 	</flow>
 	<flow name="get:\accounts:accounts-sys-api-config">
-		<flow-ref doc:name="getAccounts" doc:id="44bebded-4acb-4af4-811b-8ada46ab7945" name="get-accounts-flow"/>
-    </flow>
+		<flow-ref doc:name="getAccounts"
+			doc:id="44bebded-4acb-4af4-811b-8ada46ab7945"
+			name="get-accounts-flow" />
+	</flow>
 	<flow
 		name="post:\accounts:application\json:accounts-sys-api-config">
 		<ee:transform
